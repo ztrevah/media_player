@@ -45,3 +45,7 @@ Avaiable options:
 	5 - Can change volume of device
 
 The application should be structured following MVC pattern
+
+How to use application:
+- Load the code of folder board into S32K144 via S32DS
+- Open app folder and run Makefile to compile the application and execute
