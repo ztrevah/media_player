@@ -51,24 +51,24 @@ Application::Application(const std::string& startDirectory) {
     __mediaPlayerService = new MediaPlayerService(__mediaFileRepository, __playlistRepository);
 
     if (SDL_Init(SDL_INIT_AUDIO) < 0) {
-        std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
+        std::cerr << "SDL_Init Error: " << SDL_GetError() << '\n';
         SDL_Quit();
         exit(0);
         // Handle error appropriately (e.g., exit application)
     }
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
+        std::cerr << "SDL_Init Error: " << SDL_GetError() << '\n';
         SDL_Quit();
         exit(0);
     }
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
-        std::cerr << "Mix_OpenAudio Error: " << Mix_GetError() << std::endl;
+        std::cerr << "Mix_OpenAudio Error: " << Mix_GetError() << '\n';
         SDL_Quit();
         exit(0);
     }
     // Initialize SDL_ttf
     if (TTF_Init() < 0) {
-        std::cerr << "SDL_ttf Error: " << SDL_GetError() << std::endl;
+        std::cerr << "SDL_ttf Error: " << SDL_GetError() << '\n';
         SDL_Quit();
         exit(0);
     }
@@ -128,20 +128,20 @@ MediaPlayState Application::getLastPlayState() {
             try {
                 __lastPlayState.setPauseAt(std::stoi(secondsLine));
             } catch (const std::invalid_argument& e) {
-                std::cerr << "Error: Invalid second value in config file." << std::endl;
+                std::cerr << "Error: Invalid second value in config file." << '\n';
             } catch (const std::out_of_range& e){
-                std::cerr << "Error: second value out of range in config file." << std::endl;
+                std::cerr << "Error: second value out of range in config file." << '\n';
             }
 
             __lastPlayState.setPlaylistFrom(playlistNameLine);
 
         } else {
-            std::cerr << "Error: Config file is incomplete." << std::endl;
+            std::cerr << "Error: Config file is incomplete." << '\n';
         }
 
         configFile.close();
     } else {
-        std::cerr << "Error: Could not open config file: " << configFilePath << std::endl;
+        std::cerr << "Error: Could not open config file: " << configFilePath << '\n';
     }
 
     return Application::__lastPlayState;
@@ -154,9 +154,9 @@ std::string Application::getStartDirectory() {
 void Application::savePlayState(const MediaPlayState& playState) {
     std::ofstream outfile(getConfigDirectory() + "/player_config.txt");
     if (outfile.is_open()) {
-        outfile << playState.getPlayedMedia().getFilePath() << std::endl;
-        outfile << playState.getPauseAt() << std::endl;
-        outfile << playState.getPlaylistFrom() << std::endl;
+        outfile << playState.getPlayedMedia().getFilePath() << '\n';
+        outfile << playState.getPauseAt() << '\n';
+        outfile << playState.getPlaylistFrom() << '\n';
         outfile.close();
     } else {
         std::cerr << "Error: Unable to save media player state into player_config.txt\n";
